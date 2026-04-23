@@ -1,0 +1,17 @@
+flowchart TD
+    A[User Prompt] --> B[Input Validator]
+    B --> C[Local Retriever]
+    C --> D[Planning Agent]
+    D --> E[Plan Output]
+    D --> F[Self-review Agent]
+    F --> G[Review Output]
+    C --> D
+    C --> F
+    E --> H[CLI Display]
+    G --> H
+    style A fill:#f9f,stroke:#333,stroke-width:2px
+    style B fill:#bbf,stroke:#333,stroke-width:1px
+    style C fill:#bfb,stroke:#333,stroke-width:1px
+    style D fill:#ffb,stroke:#333,stroke-width:1px
+    style F fill:#fbf,stroke:#333,stroke-width:1px
+    style H fill:#eef,stroke:#333,stroke-width:1px
