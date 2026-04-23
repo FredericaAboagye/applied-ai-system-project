@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Semester Success Planner</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .demo-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            margin-top: 10px;
+        }
+
+        .main-card {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        textarea, input[type="file"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        textarea:focus, input[type="file"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        button {
+            flex: 1;
+            padding: 12px 20px;
+            font-size: 1em;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+            transform: translateY(-2px);
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            border: 4px solid #f0f0f0;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error {
+            background: #fee;
+            border: 1px solid #fcc;
+            color: #c33;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .output-section {
+            display: none;
+            margin-top: 40px;
+        }
+
+        .output-card {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+        .output-card h3 {
+            color: #667eea;
+            margin-bottom: 12px;
+            font-size: 1.1em;
+        }
+
+        .output-card p, .output-card li {
+            color: #555;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .output-card ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        .confidence-score {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            margin: 20px 0;
+        }
+
+        .confidence-score .score {
+            font-size: 1.5em;
+        }
+
+        .sources-list {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .sources-list h4 {
+            color: #333;
+            margin-bottom: 12px;
+            font-size: 0.95em;
+        }
+
+        .source-item {
+            padding: 8px;
+            margin: 8px 0;
+            background: #f5f5f5;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: #666;
+            border-left: 3px solid #667eea;
+            padding-left: 12px;
+        }
+
+        .eval-results {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .eval-scenario {
+            padding: 15px;
+            margin: 10px 0;
+            background: #f8f9fa;
+            border-radius: 4px;
+            border-left: 4px solid #667eea;
+        }
+
+        .eval-scenario.pass {
+            border-left-color: #4caf50;
+        }
+
+        .eval-scenario.fail {
+            border-left-color: #f44336;
+        }
+
+        .eval-status {
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .pass .eval-status {
+            color: #4caf50;
+        }
+
+        .fail .eval-status {
+            color: #f44336;
+        }
+
+        .summary {
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .help-text {
+            font-size: 0.9em;
+            color: #999;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .main-card {
+                padding: 20px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 Semester Success Planner</h1>
+            <p>Intelligent planning powered by AI</p>
+            {% if demo_mode %}
+            <div class="demo-badge">✓ Demo Mode (No API Key Needed)</div>
+            {% endif %}
+        </header>
+
+        <div class="main-card">
+            <div class="error" id="errorBox"></div>
+
+            <form id="plannerForm" onsubmit="handleSubmit(event)">
+                <div class="form-group">
+                    <label for="prompt">🎯 What would you like to plan?</label>
+                    <textarea 
+                        id="prompt" 
+                        name="prompt" 
+                        placeholder="e.g., Plan my finals week with homework and wellness breaks&#10;or&#10;Create a semester plan that balances classes, job search, and self-care"
+                        required>
+                    </textarea>
+                    <div class="help-text">Be specific about what you want to plan</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="syllabus">📄 (Optional) Upload Your Syllabus</label>
+                    <input 
+                        type="file" 
+                        id="syllabus" 
+                        name="syllabus"
+                        accept=".pdf,.txt,.doc,.docx"
+                    >
+                    <div class="help-text">Upload course syllabus or schedule to personalize recommendations</div>
+                </div>
+
+                <div class="button-group">
+                    <button type="submit" class="btn-primary" id="generateBtn">
+                        ✨ Generate Plan
+                    </button>
+                    <button type="button" class="btn-secondary" onclick="runEvaluation()">
+                        🧪 Run Evaluation
+                    </button>
+                </div>
+            </form>
+
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p style="margin-top: 15px; color: #667eea;">Generating your personalized plan...</p>
+            </div>
+        </div>
+
+        <!-- Plan Output -->
+        <div class="output-section" id="planOutput">
+            <div class="main-card">
+                <h2 style="color: #333; margin-bottom: 20px;">📋 Your Personalized Plan</h2>
+                
+                <div class="output-card">
+                    <h3>Plan</h3>
+                    <p id="planText"></p>
+                </div>
+
+                <div class="confidence-score">
+                    <div>System Confidence</div>
+                    <div class="score"><span id="confidenceScore">0.00</span>/1.00</div>
+                </div>
+
+                <div class="output-card">
+                    <h3>Self-Review</h3>
+                    <p id="reviewText"></p>
+                </div>
+
+                <div class="sources-list" id="sourcesList">
+                    <h4>📚 Retrieved Sources (Grounded in Best Practices)</h4>
+                    <div id="sourcesContainer"></div>
+                </div>
+
+                <button type="button" class="btn-secondary" style="width: 100%; margin-top: 20px;" onclick="resetForm()">
+                    ← Start New Plan
+                </button>
+            </div>
+        </div>
+
+        <!-- Evaluation Output -->
+        <div class="output-section" id="evalOutput">
+            <div class="main-card">
+                <h2 style="color: #333; margin-bottom: 20px;">🧪 Evaluation Results</h2>
+                <div class="eval-results" id="evalResults"></div>
+                <button type="button" class="btn-secondary" style="width: 100%; margin-top: 20px;" onclick="resetForm()">
+                    ← Back
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showError(message) {
+            const errorBox = document.getElementById('errorBox');
+            errorBox.textContent = message;
+            errorBox.style.display = 'block';
+            setTimeout(() => {
+                errorBox.style.display = 'none';
+            }, 5000);
+        }
+
+        async function handleSubmit(event) {
+            event.preventDefault();
+            
+            const prompt = document.getElementById('prompt').value.trim();
+            const syllabus = document.getElementById('syllabus').files[0];
+            
+            if (!prompt) {
+                showError('Please enter a planning prompt');
+                return;
+            }
+
+            // Hide error and show loading
+            document.getElementById('errorBox').style.display = 'none';
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('planOutput').style.display = 'none';
+            document.getElementById('evalOutput').style.display = 'none';
+
+            try {
+                const formData = new FormData();
+                formData.append('prompt', prompt);
+                if (syllabus) {
+                    formData.append('syllabus', syllabus);
+                }
+
+                const response = await fetch('/api/plan', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.error || 'Failed to generate plan');
+                }
+
+                const data = await response.json();
+
+                // Display results
+                document.getElementById('planText').textContent = data.plan;
+                document.getElementById('reviewText').textContent = data.review;
+                document.getElementById('confidenceScore').textContent = data.confidence.toFixed(2);
+
+                // Display sources
+                const sourcesContainer = document.getElementById('sourcesContainer');
+                sourcesContainer.innerHTML = '';
+                data.sources.forEach((source, index) => {
+                    const sourceEl = document.createElement('div');
+                    sourceEl.className = 'source-item';
+                    sourceEl.textContent = `${index + 1}. ${source.substring(0, 150)}...`;
+                    sourcesContainer.appendChild(sourceEl);
+                });
+
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('planOutput').style.display = 'block';
+
+            } catch (error) {
+                document.getElementById('loading').style.display = 'none';
+                showError(error.message);
+            }
+        }
+
+        async function runEvaluation() {
+            document.getElementById('errorBox').style.display = 'none';
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('planOutput').style.display = 'none';
+            document.getElementById('evalOutput').style.display = 'none';
+
+            try {
+                const response = await fetch('/api/evaluate', {
+                    method: 'POST'
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.error || 'Evaluation failed');
+                }
+
+                const data = await response.json();
+
+                // Display evaluation results
+                const resultsHTML = data.scenarios.map(scenario => `
+                    <div class="eval-scenario ${scenario.passed ? 'pass' : 'fail'}">
+                        <div class="eval-status">
+                            ${scenario.passed ? '✅ PASS' : '❌ FAIL'} - ${scenario.name}
+                        </div>
+                        <div>Confidence: <strong>${scenario.confidence.toFixed(2)}/1.00</strong></div>
+                        ${!scenario.passed ? `<div style="color: #f44336; font-size: 0.9em;">Missing: ${scenario.missing_terms.join(', ')}</div>` : ''}
+                    </div>
+                `).join('');
+
+                const summaryHTML = `
+                    <div class="eval-results">
+                        ${resultsHTML}
+                        <div class="summary">
+                            📊 Summary: ${data.passed}/${data.total} scenarios passed (${Math.round(data.passed/data.total*100)}%)
+                            <br>
+                            📈 Average Confidence: ${data.avg_confidence.toFixed(2)}/1.00
+                        </div>
+                    </div>
+                `;
+
+                document.getElementById('evalResults').innerHTML = summaryHTML;
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('evalOutput').style.display = 'block';
+
+            } catch (error) {
+                document.getElementById('loading').style.display = 'none';
+                showError(error.message);
+            }
+        }
+
+        function resetForm() {
+            document.getElementById('plannerForm').reset();
+            document.getElementById('planOutput').style.display = 'none';
+            document.getElementById('evalOutput').style.display = 'none';
+            document.getElementById('errorBox').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

@@ -11,6 +11,15 @@
 - Employing multi-step agent reasoning to decompose goals into actionable tasks
 - Including self-review and confidence scoring as guardrails against hallucinations
 - Providing an evaluation harness to demonstrate measurable reliability
+- Offering a beautiful web UI with syllabus upload for personalized planning (RAG Enhancement feature)
+
+**How It Works:**
+- 🎯 **Web Interface:** User-friendly browser app at `http://localhost:5000`
+- 📄 **Syllabus Upload:** Students can upload course syllabi to personalize recommendations
+- 🤖 **AI Planning:** LLM generates structured, multi-step plans grounded in best practices
+- ✅ **Self-Review:** AI critiques its own plan for quality assurance
+- 📊 **Reliability Scoring:** Confidence scores show plan reliability
+- 🧪 **Evaluation Harness:** Automated tests demonstrate system reliability
 
 ---
 
@@ -85,19 +94,36 @@ export OPENAI_API_KEY="sk-..."
 # No setup required — just use the --demo flag
 ```
 
-### 5. Run the Planner
+### 5. Run the Application
 
-**Option A: Demo Mode (no API key required)**
+#### Option A: Web UI (Recommended - Much Prettier!)
+
+```bash
+# Start the Flask web server
+python app.py
+
+# Open your browser to: http://localhost:5000
+```
+
+Then:
+- 📝 Enter your planning prompt in the text area
+- 📤 (Optional) Upload a syllabus file to personalize recommendations
+- ✨ Click "Generate Plan" to see your personalized plan with confidence score and sources
+- 🧪 Click "Run Evaluation" to see reliability test results
+
+#### Option B: Command-Line Interface (CLI)
+
+**Demo Mode (no API key required)**
 ```bash
 python main.py --demo --prompt "Plan my study schedule for finals week with homework and fun breaks"
 ```
 
-**Option B: Live Mode (requires OpenAI API key)**
+**Live Mode (requires OpenAI API key)**
 ```bash
 python main.py --prompt "Create a semester plan that balances classes, a part-time job, and self-care"
 ```
 
-### 6. Run the Evaluation Harness
+### 6. Run the Evaluation Harness via CLI
 
 ```bash
 # Runs all 3 test scenarios and reports pass/fail rate and confidence scores
