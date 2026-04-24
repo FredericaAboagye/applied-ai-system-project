@@ -326,14 +326,15 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="syllabus">📄 (Optional) Upload Your Syllabus</label>
+                    <label for="syllabi">📚 (Recommended) Upload Your Course Syllabi</label>
                     <input 
                         type="file" 
-                        id="syllabus" 
-                        name="syllabus"
+                        id="syllabi" 
+                        name="syllabi"
                         accept=".pdf,.txt,.doc,.docx"
+                        multiple
                     >
-                    <div class="help-text">Upload course syllabus or schedule to personalize recommendations</div>
+                    <div class="help-text">Upload 1-4+ course syllabi to get personalized, date-aware planning (AI will analyze all courses together)</div>
                 </div>
 
                 <div class="button-group">
@@ -365,6 +366,10 @@
                 <div class="confidence-score">
                     <div>System Confidence</div>
                     <div class="score"><span id="confidenceScore">0.00</span>/1.00</div>
+                </div>
+
+                <div class="output-card" style="background: #f0f7ff; border-left-color: #4a90e2;">
+                    <p id="confidenceMessage" style="color: #2c3e50; margin: 0;"></p>
                 </div>
 
                 <div class="output-card">
@@ -445,6 +450,15 @@
                 document.getElementById('planText').textContent = data.plan;
                 document.getElementById('reviewText').textContent = data.review;
                 document.getElementById('confidenceScore').textContent = data.confidence.toFixed(2);
+
+                // Display confidence explanation
+                if (data.confidence_explanation) {
+                    const confMsg = document.getElementById('confidenceMessage');
+                    if (confMsg) {
+                        confMsg.textContent = data.confidence_explanation;
+                        confMsg.style.display = 'block';
+                    }
+                }
 
                 // Display sources
                 const sourcesContainer = document.getElementById('sourcesContainer');

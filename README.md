@@ -14,7 +14,7 @@
 - Offering a beautiful web UI with syllabus upload for personalized planning (RAG Enhancement feature)
 
 **How It Works:**
-- 🎯 **Web Interface:** User-friendly browser app at `http://localhost:5000`
+- 🎯 **Web Interface:** User-friendly browser app at `http://localhost:8000`
 - 📄 **Syllabus Upload:** Students can upload course syllabi to personalize recommendations
 - 🤖 **AI Planning:** LLM generates structured, multi-step plans grounded in best practices
 - ✅ **Self-Review:** AI critiques its own plan for quality assurance
@@ -100,9 +100,9 @@ export OPENAI_API_KEY="sk-..."
 
 ```bash
 # Start the Flask web server
-python app.py
+python3 app.py
 
-# Open your browser to: http://localhost:5000
+# Open your browser to: http://localhost:8000
 ```
 
 Then:

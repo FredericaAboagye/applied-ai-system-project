@@ -113,31 +113,38 @@ def get_demo_response(prompt: str) -> str:
 def create_prompt(request: str, sources: List[str]) -> str:
     source_text = "\n\n---\n\n".join(sources) if sources else "No source tips available."
     return (
-        "You are a semester planning assistant for a student. Use the retrieved planning tips below to create a detailed, balanced academic plan. "
-        "Include explicit sections for goals, weekly structure, homework time, study review, breaks, and job search or wellness actions when relevant. "
-        "Do not invent source content; if the requested detail is not supported, label it as a recommendation objective.\n\n"
-        f"Student prompt: {request}\n\n"
-        "Planning tips:\n"
+        "You are an expert academic planning assistant. Your job is to create detailed, actionable semester plans.\n\n"
+        "When responding, ALWAYS:\n"
+        "1. First ACKNOWLEDGE what you understood from the request and any syllabi provided\n"
+        "2. List key dates, exams, and deadlines you identified\n"
+        "3. Point out potential conflicts or high-workload periods\n"
+        "4. THEN create a week-by-week or month-by-month plan\n"
+        "5. Be SPECIFIC with dates, not vague with 'Week 1' - use actual semester weeks\n\n"
+        f"Student request: {request}\n\n"
+        "Planning best practices:\n"
         f"{source_text}\n\n"
-        "Write the plan with numbered sections and a short introduction explaining the main strategy."
+        "Create a comprehensive, realistic plan that a student could actually follow."
     )
 
 
 def create_review_prompt(request: str, plan_text: str, sources: List[str]) -> str:
     source_text = "\n\n---\n\n".join(sources) if sources else "No source tips available."
     return (
-        "You are reviewing a semester plan created for a student. Check the plan for these reliability points:\n"
-        "1. Does it clearly reference the student request?\n"
-        "2. Does it include at least three plan categories (for example, goals, homework, study, breaks, job search)?\n"
-        "3. Does it avoid making unsupported claims that are not reflected in the retrieved tips?\n"
-        "4. Does it suggest balanced pacing and wellness breaks?\n\n"
-        f"Student prompt: {request}\n\n"
+        "Review this semester plan for quality and usefulness. Check:\n"
+        "1. Does it show understanding of the student's needs?\n"
+        "2. Are specific dates mentioned (not just generic 'Week 1')?\n"
+        "3. Does it balance workload across courses?\n"
+        "4. Are exam prep periods built in?\n"
+        "5. Does it include wellness and breaks?\n"
+        "6. Would a student actually be able to follow this?\n\n"
+        f"Student request: {request}\n\n"
         "Generated plan:\n"
         f"{plan_text}\n\n"
-        "Retrieved tips:\n"
+        "Planning principles:\n"
         f"{source_text}\n\n"
-        "Write a short self-review summary with one sentence for each reliability question and a final confidence statement."
+        "Provide a brief evaluation with 2-3 specific strengths and any concerns."
     )
+
 
 
 def calculate_confidence(plan_text: str, sources: List[str], review_text: str) -> float:
